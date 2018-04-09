@@ -25,9 +25,11 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
+        let tmp = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem = tmp
         self.hiddenedititem.isHidden = true
         self.hiddendeleteitem.isHidden = true
+        self.hiddendone.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,6 +42,7 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
     }
     
+    @IBOutlet var hiddendone: UIBarButtonItem!
     @IBAction func donee(_ sender: UIBarButtonItem) {
         if self.delegate != nil && self.selecteditem != nil {
             self.delegate?.selectitemwilldismiss(param: self.selecteditem!)
@@ -67,6 +70,7 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         if self.selecteditem != nil && data["Deskripsi"] == self.selecteditem!["Deskripsi"] {
             cell.accessoryType = .checkmark
+            self.hiddendone.isEnabled = true
             
         } else {
             cell.accessoryType = .none
@@ -103,6 +107,7 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
                 if let data = DBWrapper.sharedInstance.fetchitem() {
                     self.item = data
                     self.tableView.reloadData()
+                    self.hiddendone.isEnabled = false
                 }
                 
             })
@@ -114,13 +119,13 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
             // Failed update kantor
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Something wrong happened")
         }
+        self.selecteditem = nil
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selecteditem = self.item[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.reloadData()
-        
         self.hiddenedititem.isHidden = false
         self.hiddendeleteitem.isHidden = false
     }

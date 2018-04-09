@@ -8,8 +8,8 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController, UITextFieldDelegate, selectkantordelegate {
-
+class RegisterViewController: UIViewController, UITextFieldDelegate, selectkantordelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+    
     @IBOutlet var namaTextField: UITextField!
     @IBOutlet var alamatTextField: UITextField!
     @IBOutlet var jeniskelaminTextField: UITextField!
@@ -17,20 +17,85 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, selectkanto
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var confirmpasswordTextField: UITextField!
     @IBOutlet var levelTextField: UITextField!
-    @IBOutlet var idkantorTextField: UITextField!
-    
+    @IBOutlet var namakantorTextField: UITextField!
     
     var selectedkantor: [String:String]?
     
+    var gender = ["Laki-laki", "Perempuan"]
+    var posisi = ["Kurir", "Staff", "Manager"]
+    var pickerviewGWpunya = UIPickerView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        pickUp(jeniskelaminTextField)
+        pickUp(levelTextField)
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func pickUp(_ textField : UITextField){
+        
+        // UIPickerView
+        self.pickerviewGWpunya = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
+        self.pickerviewGWpunya.delegate = self
+        self.pickerviewGWpunya.dataSource = self
+        self.pickerviewGWpunya.backgroundColor = UIColor.white
+        textField.inputView = self.pickerviewGWpunya
+        
+        
+        // ToolBar
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
+        toolBar.sizeToFit()
+        
+        // Adding Button ToolBar
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        textField.inputAccessoryView = toolBar
+        
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == pickerviewGWpunya {
+            return posisi.count
+        } else  {
+            return gender.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == pickerviewGWpunya  {
+            return posisi[row]
+        } else {
+            return gender[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == pickerviewGWpunya  {
+            self.levelTextField.text = posisi[row]
+        } else {
+            self.jeniskelaminTextField.text = gender[row]
+        }
+    }
+    
+    @objc func doneClick() {
+        jeniskelaminTextField.resignFirstResponder()
+        levelTextField.resignFirstResponder()
+    }
+    @objc func cancelClick() {
+        jeniskelaminTextField.resignFirstResponder()
+        levelTextField.resignFirstResponder()
     }
     
     @IBAction func registerButtonDidtapped(_ sender: UIButton){
@@ -75,7 +140,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, selectkanto
             
             return
         }
-        if self.idkantorTextField.text == "" {
+        if self.namakantorTextField.text == "" {
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Kantor Tidak Boleh Kosong")
             self.usernameTextField.layer.borderColor = UIColor.red.cgColor
             
@@ -92,7 +157,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, selectkanto
         let username = self.usernameTextField.text!
         let password = self.passwordTextField.text!
         let level = self.levelTextField.text!
-        let kantor = self.selectedkantor!["idKantor"]!
+        let kantor = self.selectedkantor!["NamaKantor"]!
         
         if DBWrapper.sharedInstance.doRegister(nama: nama, alamat: alamat, jeniskelamin: jeniskelamin, username: username, password: password, level: level, kantor: kantor) == true {
             Utilities.sharedInstance.showAlert(obj: self, title: "SUCCESS", message: "Youre now registered!")
@@ -112,7 +177,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, selectkanto
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == self.idkantorTextField {
+        if textField == self.namakantorTextField {
             self.performSegue(withIdentifier: "kantorsegue", sender: self)
             
         }
@@ -120,7 +185,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, selectkanto
     }
     
     func selectkantorwilldismiss(param: [String : String]) {
-        self.idkantorTextField.text = param["idKantor"]!
+        self.namakantorTextField.text = param["NamaKantor"]!
         self.selectedkantor = param
     }
 }

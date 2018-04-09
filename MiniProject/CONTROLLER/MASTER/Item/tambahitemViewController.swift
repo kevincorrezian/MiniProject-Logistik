@@ -10,11 +10,28 @@ import UIKit
 
 class tambahitemViewController: UIViewController {
     
-    @IBOutlet var deskripsiTextField: UITextField!
+    @IBOutlet var deskripsiTextView: UITextView!
     @IBOutlet var beratbarangTextField: UITextField!
     @IBOutlet var statuspecahTextField: UITextField!
     @IBOutlet var statusgaransiTextField: UITextField!
     
+    
+    
+    @IBAction func kurangi_berat(_ sender: UIButton) {
+        var beratsaatini = Int(self.beratbarangTextField.text!)
+        
+        if beratsaatini! - 1 > 0 {
+            self.beratbarangTextField.text = String(Int(beratbarangTextField.text!)! - 1)
+        }
+    }
+    @IBAction func tambah_berat(_ sender: UIButton) {
+    var beratsaatini = Int(self.beratbarangTextField.text!)
+        
+        if beratsaatini! + 1 <= 10 {
+             self.beratbarangTextField.text = String(Int(beratbarangTextField.text!)! + 1)
+        }
+      
+    }
     
     @IBAction func statusgaransiswitch(_ sender: UISwitch) {
         if (sender.isOn == true) {
@@ -35,6 +52,7 @@ class tambahitemViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.beratbarangTextField.text = "1"
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,33 +62,33 @@ class tambahitemViewController: UIViewController {
     
     @IBAction func savebutton(_ sender: UIButton){
         // VALIDATION
-        if self.deskripsiTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "nama Item Cannot Be Empty!")
+        if self.deskripsiTextView.text == "" {
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Deskripsi Barang Harus Diisi!")
             return
         }
-        if self.beratbarangTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "nama Item Cannot Be Empty!")
+        if self.beratbarangTextField.text == ""  {
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Berat Barang Harus Diisi!")
             return
         }
         if self.statuspecahTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "nama Item Cannot Be Empty!")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Status pecah Harus Diisi")
             return
         }
         if self.statusgaransiTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "nama Item Cannot Be Empty!")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Status Garansi Harus Diisi")
             return
         }
         let param: [String: String] = [
-            "Deskripsi": self.deskripsiTextField.text!,
+            "Deskripsi": self.deskripsiTextView.text!,
             "BeratBarang": self.beratbarangTextField.text!,
             "StatusPecah": self.statuspecahTextField.text!,
             "StatusGaransi": self.statusgaransiTextField.text!
         ]
         if DBWrapper.sharedInstance.doInsertItem(itemData: param) == true {
-            Utilities.sharedInstance.showAlert(obj: self, title: "SUCCESS", message: "Success inserting Item")
+            Utilities.sharedInstance.showAlert(obj: self, title: "SUCCESS", message: "Sukses Input Barang")
             self.navigationController?.popViewController(animated: true)
         } else {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Failed to insert Item")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Maaf, Ada Kesalahan Input")
         }
         
     }

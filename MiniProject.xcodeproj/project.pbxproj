@@ -26,6 +26,7 @@
 		D8CC1A5620746A31002DA685 /* tambahkotaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC1A5320746A30002DA685 /* tambahkotaViewController.swift */; };
 		D8CC1A5720746A31002DA685 /* editKotaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC1A5420746A30002DA685 /* editKotaViewController.swift */; };
 		D8CC1A5820746A31002DA685 /* kotaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8CC1A5520746A31002DA685 /* kotaViewController.swift */; };
+		D8D3D5FF207B38E000D916CF /* pengirimanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D3D5FE207B38E000D916CF /* pengirimanTableViewCell.swift */; };
 		D8D8CDEF206A3504003A3441 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8CDEE206A3504003A3441 /* AppDelegate.swift */; };
 		D8D8CDF1206A3504003A3441 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D8CDF0206A3504003A3441 /* ViewController.swift */; };
 		D8D8CDF4206A3504003A3441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D8D8CDF2206A3504003A3441 /* Main.storyboard */; };
@@ -46,7 +47,6 @@
 		E89111622075E22A00EF2623 /* orderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89111612075E22A00EF2623 /* orderViewController.swift */; };
 		E89111642075E3F800EF2623 /* ordercustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89111632075E3F800EF2623 /* ordercustomTableViewCell.swift */; };
 		E89EAE5A2076196A009FAF86 /* editemployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EAE5720761969009FAF86 /* editemployeeViewController.swift */; };
-		E89EAE5B2076196A009FAF86 /* tambahemployeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EAE582076196A009FAF86 /* tambahemployeeViewController.swift */; };
 		E89EAE5C2076196A009FAF86 /* employeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E89EAE592076196A009FAF86 /* employeeViewController.swift */; };
 		F5B69C9A20701A1900718AB2 /* EditKantorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5B69C9920701A1900718AB2 /* EditKantorViewController.swift */; };
 /* End PBXBuildFile section */
@@ -85,6 +85,7 @@
 		D8CC1A5320746A30002DA685 /* tambahkotaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tambahkotaViewController.swift; sourceTree = "<group>"; };
 		D8CC1A5420746A30002DA685 /* editKotaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = editKotaViewController.swift; sourceTree = "<group>"; };
 		D8CC1A5520746A31002DA685 /* kotaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = kotaViewController.swift; sourceTree = "<group>"; };
+		D8D3D5FE207B38E000D916CF /* pengirimanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pengirimanTableViewCell.swift; sourceTree = "<group>"; };
 		D8D8CDEB206A3504003A3441 /* MiniProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MiniProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8D8CDEE206A3504003A3441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D8D8CDF0206A3504003A3441 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -114,7 +115,6 @@
 		E89111612075E22A00EF2623 /* orderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = orderViewController.swift; sourceTree = "<group>"; };
 		E89111632075E3F800EF2623 /* ordercustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ordercustomTableViewCell.swift; sourceTree = "<group>"; };
 		E89EAE5720761969009FAF86 /* editemployeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = editemployeeViewController.swift; sourceTree = "<group>"; };
-		E89EAE582076196A009FAF86 /* tambahemployeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = tambahemployeeViewController.swift; sourceTree = "<group>"; };
 		E89EAE592076196A009FAF86 /* employeeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = employeeViewController.swift; sourceTree = "<group>"; };
 		F5B69C9920701A1900718AB2 /* EditKantorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditKantorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -148,7 +148,6 @@
 			isa = PBXGroup;
 			children = (
 				D8885F6E206B9DE200BF885F /* LoginViewController.swift */,
-				D8885F74206B9FCA00BF885F /* RegisterViewController.swift */,
 				D8885F76206BA21D00BF885F /* HomepageViewController.swift */,
 				D8EFCC8420731CBD0097DDDF /* menudataViewController.swift */,
 				D8F8DDE52077661100A4E317 /* TRANSAKSI */,
@@ -164,6 +163,7 @@
 				D8EFCC9920733B090097DDDF /* PelangganTableViewCell.swift */,
 				E89111632075E3F800EF2623 /* ordercustomTableViewCell.swift */,
 				D8F8DDE9207766B000A4E317 /* pembayaranTableViewCell.swift */,
+				D8D3D5FE207B38E000D916CF /* pengirimanTableViewCell.swift */,
 			);
 			path = CELL;
 			sourceTree = "<group>";
@@ -338,7 +338,7 @@
 			children = (
 				E89EAE5720761969009FAF86 /* editemployeeViewController.swift */,
 				E89EAE592076196A009FAF86 /* employeeViewController.swift */,
-				E89EAE582076196A009FAF86 /* tambahemployeeViewController.swift */,
+				D8885F74206B9FCA00BF885F /* RegisterViewController.swift */,
 			);
 			path = Pegawai;
 			sourceTree = "<group>";
@@ -496,10 +496,10 @@
 				E88E036A20771F9100891F77 /* edititemViewController.swift in Sources */,
 				D8F8DDEC2077683B00A4E317 /* listpembayaranViewController.swift in Sources */,
 				D8C09FBF20746EA900214CBA /* EditJenisPengirimanViewController.swift in Sources */,
-				E89EAE5B2076196A009FAF86 /* tambahemployeeViewController.swift in Sources */,
 				E88E036C2077217000891F77 /* PembayaranViewController.swift in Sources */,
 				D8885F77206BA21D00BF885F /* HomepageViewController.swift in Sources */,
 				E89EAE5A2076196A009FAF86 /* editemployeeViewController.swift in Sources */,
+				D8D3D5FF207B38E000D916CF /* pengirimanTableViewCell.swift in Sources */,
 				D8885F75206B9FCA00BF885F /* RegisterViewController.swift in Sources */,
 				D8885F73206B9E6500BF885F /* Utilities.swift in Sources */,
 				D8C09FBB20746CAA00214CBA /* TambahPelangganViewController.swift in Sources */,

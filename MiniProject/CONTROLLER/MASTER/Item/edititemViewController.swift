@@ -10,7 +10,7 @@ import UIKit
 
 class edititemViewController: UIViewController {
     
-    @IBOutlet var deskripsiTextField: UITextField!
+    @IBOutlet var deskripsiTextView: UITextView!
     @IBOutlet var beratbarangTextField: UITextField!
     @IBOutlet var statuspecahTextField: UITextField!
     @IBOutlet var statusgaransiTextField: UITextField!
@@ -36,38 +36,38 @@ class edititemViewController: UIViewController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        self.deskripsiTextField.text = self.selecteditem?["Deskripsi"]
+        self.deskripsiTextView.text = self.selecteditem?["Deskripsi"]
         self.beratbarangTextField.text = self.selecteditem?["BeratBarang"]
     }
     
     @IBAction func editbutton(_ sender: UIButton){
-        if self.deskripsiTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Deskripsi Barang Cannot Be Empty!")
+        if self.deskripsiTextView.text == "" {
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Deskripsi Barang Harus Diisi!")
             return
         }
         if self.beratbarangTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Berat Barang Cannot Be Empty!")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Berat Barang Harus Diisi!")
             return
         }
         if self.statuspecahTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Status Pecah Cannot Be Empty!")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Status pecah Harus Diisi")
             return
         }
         if self.statusgaransiTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Status Garansi Cannot Be Empty!")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Status Garansi Harus Diisi")
             return
         }
         
         let param: [String: String] = [
             "idItem": (self.selecteditem?["idItem"])!,
-            "Deskripsi": self.deskripsiTextField.text!,
+            "Deskripsi": self.deskripsiTextView.text!,
             "BeratBarang": self.beratbarangTextField.text!,
             "StatusPecah": self.statuspecahTextField.text!,
             "StatusGaransi": self.statusgaransiTextField.text!
         ]
         
         if DBWrapper.sharedInstance.doUpdateItem(itemData: param) == true {
-            let alert = UIAlertController(title: "SUCCESS", message: "Item Updated!", preferredStyle: UIAlertControllerStyle.alert)
+            let alert = UIAlertController(title: "SUCCESS", message: "Barang Berhasil Di Edit!", preferredStyle: UIAlertControllerStyle.alert)
             let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: { (action ) in
                 
                 alert.dismiss(animated: true, completion: nil)
@@ -80,7 +80,7 @@ class edititemViewController: UIViewController {
             
             //            Utilities.sharedInstance.showAlert(obj: self, title: "SUCCESS", message: "Movie Updated!")
         } else {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Something wrong!")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Maaf, Ada Kesalahan Edit")
         }
     }
     

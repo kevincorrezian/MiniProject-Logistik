@@ -22,9 +22,11 @@ class KantorViewController: UIViewController , UITableViewDataSource, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let tmp = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem = tmp
         self.hiddeneditkantor.isHidden = true
         self.hiddendeletekantor.isHidden = true
+        self.hiddendone.isEnabled = false
         // Do any additional setup after loading the view.
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +48,7 @@ class KantorViewController: UIViewController , UITableViewDataSource, UITableVie
         // Dispose of any resources that can be recreated.
     }
     
+    @IBOutlet var hiddendone: UIBarButtonItem!
     @IBAction func donee(_ sender: UIBarButtonItem) {
         if self.delegate != nil && self.selectedkantor != nil {
             self.delegate?.selectkantorwilldismiss(param: self.selectedkantor!)
@@ -74,7 +77,7 @@ class KantorViewController: UIViewController , UITableViewDataSource, UITableVie
         
         if self.selectedkantor != nil && data["NamaKantor"] == self.selectedkantor!["NamaKantor"] {
             cell.accessoryType = .checkmark
-            
+            self.hiddendone.isEnabled = true
         } else {
             cell.accessoryType = .none
         }
@@ -110,6 +113,7 @@ class KantorViewController: UIViewController , UITableViewDataSource, UITableVie
                     if let data = DBWrapper.sharedInstance .fetchkantor() {
                         self.kantor = data
                         self.tableView.reloadData()
+                        self.hiddendone.isEnabled = false
                     }
                     
                 })

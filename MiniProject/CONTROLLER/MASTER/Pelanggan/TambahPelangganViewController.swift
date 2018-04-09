@@ -44,7 +44,7 @@ class TambahPelangganViewController: UIViewController {
             Utilities.sharedInstance.showAlert(obj: self, title: "BERHASIL", message: "Berhasil memasukkan data pelanggan")
         } else {
             // failed insert movie
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Gagal memasukkan data pelanggan")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Maaf, Ada Kesalahan Input Pelanggan")
         }
     }
     override func viewDidLoad() {

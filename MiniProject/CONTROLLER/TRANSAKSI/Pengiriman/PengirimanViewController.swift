@@ -47,34 +47,21 @@ class PengirimanViewController: UIViewController, UITableViewDelegate, UITableVi
         return self.pengiriman.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 305.0
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "pengirimanTableViewCell", for: indexPath) as! pengirimanTableViewCell
         let data = self.pengiriman[indexPath.row]
-        cell.textLabel?.text = data["OrderID"]
+        cell.nomorPemesananLabel?.text = data["OrderID"]
+        cell.tanggalPenerimaanLabel?.text = data["TanggalPengiriman"]
+        cell.TanggalPengirimanLabel?.text = data["TanggalPenerimaan"]
+        cell.jenisPengirimanLabel?.text = data["JenisPengiriman"]
+        cell.namaKurirLabel?.text = data["NamaKurir"]
+        cell.namaKantorLabel?.text = data["NamaKantor"]
+        cell.statusPengirimanLabel?.text = data["StatusPengiriman"]
         
-        if self.selectedPengiriman != nil && data["OrderID"] == self.selectedPengiriman!["OrderID"] {
-            cell.accessoryType = .checkmark
-            
-        } else {
-            cell.accessoryType = .none
-        }
         return cell
-        
-        /*let cell = tableView.dequeueReusableCell(withIdentifier: "PelangganTableViewCell", for: indexPath) as! PelangganTableViewCell
-         
-         // ambil data person
-         
-         let customer = self.pelanggan[indexPath.row]
-         
-         
-         cell.namaLabel?.text = customer["NamaPelanggan"]
-         cell.alamatLabel?.text = customer["AlamatPelanggan"]
-         cell.teleponLabel?.text = customer["KontakPelanggan"]
-         cell.kodeposLabel?.text = customer["KodePos"]
-         
-         return cell*/
-        //cell.statusLabel?.text = "status: " + person["status"]!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -10,6 +10,8 @@ import UIKit
 
 class tambahOrderViewController: UIViewController, UITextFieldDelegate, selectkotadelegate, selectitemdelegate, selectjenispengirimandelegate, selectpelanggandelegate {
     
+    
+    
     @IBOutlet var tanggalpemesenananTextField: UITextField!
     @IBOutlet var namapelangganTextField: UITextField!
     @IBOutlet var kotapengirimTextField: UITextField!
@@ -179,14 +181,16 @@ class tambahOrderViewController: UIViewController, UITextFieldDelegate, selectko
     func selectkotawilldismiss(param: [String : String] , flag: Int) {
         if flag == 0 {
             self.kotapengirimTextField.text = param["NamaKota"]!
-            self.selectedkotapengirim = param
+                self.selectedkotapengirim = param
+            
         } else {
-            self.kotapenerimaTextField.text = param["NamaKota"]!
-            self.selectedkotapenerima = param
+                self.kotapenerimaTextField.text = param["NamaKota"]!
+                self.selectedkotapenerima = param
         }
     }
     
     func selectjenispengirimanwilldismiss(param: [String : String]) {
+       
         self.jenispengirimanTextField.text = param["NamaJenisPengiriman"]!
         self.selectedjenispengiriman = param
     }

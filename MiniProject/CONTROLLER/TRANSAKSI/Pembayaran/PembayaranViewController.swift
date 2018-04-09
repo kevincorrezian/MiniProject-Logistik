@@ -8,11 +8,11 @@
 
 import UIKit
 
-class PembayaranViewController: UIViewController, UITextFieldDelegate, selectitemdelegate, selectjenispengirimandelegate, selectorderdelegate {
+class PembayaranViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate, selectitemdelegate, selectjenispengirimandelegate, selectorderdelegate {
     
     @IBOutlet var idorderTextField: UITextField!
     @IBOutlet var namapelangganTextField: UITextField!
-    @IBOutlet var deskripsibarangTextField: UITextField!
+    @IBOutlet var deskripsibarangTextView: UITextView!
     
     
     @IBOutlet var beratbarangTextField: UITextField!
@@ -52,7 +52,7 @@ class PembayaranViewController: UIViewController, UITextFieldDelegate, selectite
         // Do any additional setup after loading the view.
         self.idorderTextField.text = self.selectedorder?["idOrder"]
         self.namapelangganTextField.text = self.selectedorder?["NamaPelanggan"]
-        self.deskripsibarangTextField.text = self.selecteditem?["Deskripsi"]
+        self.deskripsibarangTextView.text = self.selecteditem?["Deskripsi"]
         self.beratbarangTextField.text = self.selecteditem?["BeratBarang"]
         self.statusgaransiTextField.text = self.selecteditem?["StatusGaransi"]
         self.statuspecahbelahTextField.text = self.selecteditem?["StatusPecah"]
@@ -75,7 +75,7 @@ class PembayaranViewController: UIViewController, UITextFieldDelegate, selectite
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Nama Pelanggan Tidak Boleh Kosong")
             return
         }
-        if self.deskripsibarangTextField.text == "" {
+        if self.deskripsibarangTextView.text == "" {
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Deskripsi Barang Tidak Boleh Kosong")
             return
         }
@@ -103,7 +103,7 @@ class PembayaranViewController: UIViewController, UITextFieldDelegate, selectite
             "idOrder" : self.idorderTextField.text!,
             "NamaPelanggan" : self.namapelangganTextField.text!,
             "NamaJenisPengiriman" : self.jenispengirimanTextField.text!,
-            "Deskripsi" : self.deskripsibarangTextField.text!,
+            "Deskripsi" : self.deskripsibarangTextView.text!,
             "BeratBarang" : self.beratbarangTextField.text!,
             "StatusGaransi" : self.statusgaransiTextField.text!,
             "StatusPecah" : self.statuspecahbelahTextField.text!,
@@ -138,11 +138,14 @@ class PembayaranViewController: UIViewController, UITextFieldDelegate, selectite
         }
     }
     
-    
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        if textField == self.deskripsibarangTextField {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        if textView == self.deskripsibarangTextView {
             self.performSegue(withIdentifier: "itemsegue", sender: self)
         }
+        return false
+    }
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+      
         if textField == self.jenispengirimanTextField {
             self.performSegue(withIdentifier: "jenispengirimansegue", sender: self)
         }
@@ -159,7 +162,7 @@ class PembayaranViewController: UIViewController, UITextFieldDelegate, selectite
         self.selecteditem = param
     }
     func selectitemwilldismiss(param: [String:String]) {
-        self.deskripsibarangTextField.text = param["Deskripsi"]!
+        self.deskripsibarangTextView.text = param["Deskripsi"]!
         self.selecteditem = param
         self.beratbarangTextField.text = param["BeratBarang"]!
         self.selecteditem = param

@@ -22,14 +22,26 @@ class HomepageViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func pelangganimg(_ sender: Any){
+        self.performSegue(withIdentifier: "datasegue", sender: self)
+    }
  @IBAction func pelangganButton(_ sender: UIButton){
     self.performSegue(withIdentifier: "datasegue", sender: self)
+    }
+    @IBAction func orderimg(_ sender: Any){
+        self.performSegue(withIdentifier: "datasegue", sender: self)
     }
  @IBAction func orderButton(_ sender: UIButton){
     self.performSegue(withIdentifier: "ordersegue", sender: self)
     }
+    @IBAction func pembayaranimg(_ sender: Any){
+        self.performSegue(withIdentifier: "datasegue", sender: self)
+    }
  @IBAction func pembayaranButton(_ sender: UIButton){
     self.performSegue(withIdentifier: "pembayaransegue", sender: self)
+    }
+    @IBAction func pengirimanimg(_ sender: Any){
+        self.performSegue(withIdentifier: "datasegue", sender: self)
     }
  @IBAction func pengirimanButton(_ sender: UIButton){
     self.performSegue(withIdentifier: "pengirimansegue", sender: self)

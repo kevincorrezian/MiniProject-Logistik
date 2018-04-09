@@ -29,7 +29,7 @@ class DBWrapper{
     
     func createTables(){
         // EMPLOYEE
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Employee (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT, NamaEmployee TEXT, AlamatEmployee TEXT, JenisKelamin TEXT, UsernameEmployee TEXT, PasswordEmployee TEXT, LevelEmployee TEXT, idKantor INTEGER)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Employee (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT, NamaEmployee TEXT, AlamatEmployee TEXT, JenisKelamin TEXT, UsernameEmployee TEXT, PasswordEmployee TEXT, LevelEmployee TEXT, NamaKantor TEXT)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String (cString: sqlite3_errmsg(db)!)
             print("ERROR: Error creating table Employee: \(errmsg)")
         }
@@ -77,7 +77,7 @@ class DBWrapper{
     // REGISTER EMPLOYEE
     func doRegister(nama: String, alamat: String, jeniskelamin: String, username: String, password: String, level: String, kantor: String) -> Bool {
         var stmt: OpaquePointer?
-        let queryString = "INSERT INTO Employee (NamaEmployee, AlamatEmployee, JenisKelamin, UsernameEmployee, PasswordEmployee, LevelEmployee, idKantor) VALUES ('\(nama)','\(alamat)','\(jeniskelamin)','\(username)','\(password)','\(level)','\(kantor)')"
+        let queryString = "INSERT INTO Employee (NamaEmployee, AlamatEmployee, JenisKelamin, UsernameEmployee, PasswordEmployee, LevelEmployee, NamaKantor) VALUES ('\(nama)','\(alamat)','\(jeniskelamin)','\(username)','\(password)','\(level)','\(kantor)')"
         print ("QUERY REGISTER: \(queryString)")
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK
@@ -134,7 +134,7 @@ class DBWrapper{
             let UsernameEmployee = String(cString: sqlite3_column_text(stmt, 4))
             let PasswordEmployee = String(cString: sqlite3_column_text(stmt, 5))
             let LevelEmployee = String(cString: sqlite3_column_text(stmt, 6))
-            let idKantor = String(cString: sqlite3_column_text(stmt, 7))
+            let NamaKantor = String(cString: sqlite3_column_text(stmt, 7))
             
             let tmp = [
                 "idEmployee": String(idEmployee),
@@ -144,13 +144,53 @@ class DBWrapper{
                 "UsernameEmployee": UsernameEmployee,
                 "PasswordEmployee": PasswordEmployee,
                 "LevelEmployee": LevelEmployee,
-                "idKantor": idKantor
+                "NamaKantor": NamaKantor
             ]
             employee?.append(tmp)
         }
         
         return employee
     }
+    // Menampilkan Kurir
+    
+    func fetchEmployeeFilterKurir()-> [[String: String]]?{
+        var stmt: OpaquePointer?
+        
+        let queryString = "SELECT * FROM Employee WHERE Employee.LevelEmployee = 'Kurir'"
+        print("QUERY FETCH USERS: \(queryString)")
+        
+        var employee = [[String: String]]()
+        if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
+            let errmsg = String(cString: sqlite3_errmsg(db)!)
+            print("ERROR: ReadValues: Error preparing fetch employee: \(errmsg)")
+            return nil
+        }
+        
+        while (sqlite3_step(stmt)) == SQLITE_ROW {
+            let idEmployee = sqlite3_column_int(stmt, 0)
+            let NamaEmployee = String(cString: sqlite3_column_text(stmt, 1))
+            let AlamatEmployee = String(cString: sqlite3_column_text(stmt, 2))
+            let JenisKelamin = String(cString: sqlite3_column_text(stmt, 3))
+            let UsernameEmployee = String(cString: sqlite3_column_text(stmt, 4))
+            let PasswordEmployee = String(cString: sqlite3_column_text(stmt, 5))
+            let LevelEmployee = String(cString: sqlite3_column_text(stmt, 6))
+            let NamaKantor = String(cString: sqlite3_column_text(stmt, 7))
+            
+            let tmp = [
+                "idEmployee": String(idEmployee),
+                "NamaEmployee": NamaEmployee,
+                "AlamatEmployee": AlamatEmployee,
+                "JenisKelamin": JenisKelamin,
+                "UsernameEmployee": UsernameEmployee,
+                "PasswordEmployee": PasswordEmployee,
+                "LevelEmployee": LevelEmployee,
+                "NamaKantor": NamaKantor
+            ]
+            employee.append(tmp)
+        }
+        return employee
+    }
+    
     // INSERT EMPLOYEE
     func doInsertEmployee(dataEmployee: [String: String]) -> Bool {
         var stmt: OpaquePointer?
@@ -161,9 +201,9 @@ class DBWrapper{
         let UsernameEmployee = dataEmployee["UsernameEmployee"]!
         let PasswordEmployee = dataEmployee["PasswordEmployee"]!
         let LevelEmployee = dataEmployee["LevelEmployee"]!
-        let idKantor = dataEmployee["idKantor"]!
+        let NamaKantor = dataEmployee["NamaKantor"]!
         
-        let queryString = "INSERT INTO Employee (idEmployee, NamaEmployee, AlamatEmployee, JenisKelamin, UsernameEmployee, PasswordEmployee, LevelEmployee, idKantor) VALUES ('\(idEmployee)','\(NamaEmployee)','\(AlamatEmployee)','\(JenisKelamin)','\(UsernameEmployee)','\(PasswordEmployee)','\(LevelEmployee)','\(idKantor)')"
+        let queryString = "INSERT INTO Employee (idEmployee, NamaEmployee, AlamatEmployee, JenisKelamin, UsernameEmployee, PasswordEmployee, LevelEmployee, NamaKantor) VALUES ('\(idEmployee)','\(NamaEmployee)','\(AlamatEmployee)','\(JenisKelamin)','\(UsernameEmployee)','\(PasswordEmployee)','\(LevelEmployee)','\(NamaKantor)')"
         print("QUERY UPDATE EMPLOYEE : \(queryString)")
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
@@ -183,9 +223,9 @@ class DBWrapper{
         let UsernameEmployee = dataEmployee["UsernameEmployee"]!
         let PasswordEmployee = dataEmployee["PasswordEmployee"]!
         let LevelEmployee = dataEmployee["LevelEmployee"]!
-        let idKantor = dataEmployee["idKantor"]!
+        let NamaKantor = dataEmployee["NamaKantor"]!
         
-        let queryString = "Update Employee SET NamaEmployee='\(NamaEmployee)', AlamatEmployee = '\(AlamatEmployee)', JenisKelamin ='\(JenisKelamin)', UsernameEmployee ='\(UsernameEmployee)', PasswordEmployee ='\(PasswordEmployee)', LevelEmployee ='\(LevelEmployee)', idKantor ='\(idKantor)' WHERE idEmployee = '\(idEmployee)'"
+        let queryString = "Update Employee SET NamaEmployee='\(NamaEmployee)', AlamatEmployee = '\(AlamatEmployee)', JenisKelamin ='\(JenisKelamin)', UsernameEmployee ='\(UsernameEmployee)', PasswordEmployee ='\(PasswordEmployee)', LevelEmployee ='\(LevelEmployee)', NamaKantor ='\(NamaKantor)' WHERE idEmployee = '\(idEmployee)'"
         print("QUERY UPDATE EMPLOYEE : \(queryString)")
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {

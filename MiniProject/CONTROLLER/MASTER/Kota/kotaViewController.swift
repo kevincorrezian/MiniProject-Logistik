@@ -23,9 +23,11 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        let tmp = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem = tmp
         self.hiddeneditkota.isHidden = true
         self.hiddendeletekota.isHidden = true
+        self.hiddendone.isEnabled = false
         // Do any additional setup after loading the view.
     }
     
@@ -48,6 +50,7 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Dispose of any resources that can be recreated.
     }
     
+    @IBOutlet var hiddendone: UIBarButtonItem!
     @IBAction func done(_ sender: UIBarButtonItem) {
         if self.delegate != nil && self.selectedkota != nil {
             self.delegate?.selectkotawilldismiss(param: self.selectedkota!, flag: self.flag)
@@ -75,9 +78,11 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
         let data = self.kota[indexPath.row]
         cell.textLabel?.text = data["NamaKota"]
         
+        
+        
         if self.selectedkota != nil && data["NamaKota"] == self.selectedkota!["NamaKota"] {
             cell.accessoryType = .checkmark
-            
+            self.hiddendone.isEnabled = true
         } else {
             cell.accessoryType = .none
         }
@@ -98,6 +103,7 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet var hiddendeletekota: UIButton!
     @IBAction func deletekota(_ sender: UIBarButtonItem) {
+        
         let actionSheet = UIAlertController(title: "Are you sure to delete", message: self.selectedkota?["title"], preferredStyle: UIAlertControllerStyle.alert)
         
         let yesAction = UIAlertAction(title: "Yes", style: UIAlertActionStyle.default) {
@@ -111,7 +117,7 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
                 // Succes update movie
                 let alert = UIAlertController(title: "SUCCESS", message: "Kota Deleted!", preferredStyle: UIAlertControllerStyle.alert)
                 let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: { (action) in
-                    
+                self.selectedkota = nil
                     // dismiss alert
                     alert.dismiss(animated: true, completion: nil)
                     
@@ -119,6 +125,7 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
                     if let data = DBWrapper.sharedInstance.fetchkota() {
                         self.kota = data
                         self.tableView.reloadData()
+                        self.hiddendone.isEnabled = false
                     }
                     
                 })
@@ -137,7 +144,6 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         actionSheet.addAction(yesAction)
         actionSheet.addAction(cancelAction)
-        
         self.present(actionSheet, animated: true, completion: nil)
     }
     
@@ -147,6 +153,7 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tableView.reloadData()
         self.hiddeneditkota.isHidden = false
         self.hiddendeletekota.isHidden = false
+        
     }
 
 }

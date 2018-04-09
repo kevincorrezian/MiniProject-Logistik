@@ -25,16 +25,10 @@ class orderViewController: UIViewController, UITableViewDelegate, UITableViewDat
         self.performSegue(withIdentifier: "tambahordersegue", sender: self)
     }
     
-    @IBAction func doneeorder(_ sender: UIBarButtonItem) {
-        if self.delegate != nil && self.selectedorder != nil {
-            self.delegate?.selectorderwilldismiss(param: self.selectedorder!)
-        }
-        self.navigationController?.popViewController(animated: true)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.hiddendone.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,11 +63,19 @@ class orderViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         if self.selectedorder != nil && data["TanggalPemesanan"] == self.selectedorder!["TanggalPemesanan"] {
             cell.accessoryType = .checkmark
-            
+            self.hiddendone.isEnabled = true
         } else {
             cell.accessoryType = .none
         }
         return cell
+    }
+    
+    @IBOutlet var hiddendone: UIBarButtonItem!
+    @IBAction func doneee(_ sender: UIBarButtonItem) {
+        if self.delegate != nil && self.selectedorder != nil {
+            self.delegate?.selectorderwilldismiss(param: self.selectedorder!)
+        }
+        self.navigationController?.popViewController(animated: true)
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -24,12 +24,7 @@ class PelangganViewController: UIViewController, UITableViewDelegate, UITableVie
         self.performSegue(withIdentifier: "TambahPelangganSegue", sender: self)
     }
     
-    @IBAction func donee(_ sender: UIBarButtonItem) {
-        if self.delegate != nil && self.selectedCustomer != nil {
-            self.delegate?.selectpelangganwilldismiss(param: self.selectedCustomer!)
-        }
-        self.navigationController?.popViewController(animated: true)
-    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +68,6 @@ class PelangganViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.kodeposLabel?.text = customer["KodePos"]
         
         return cell
-        //cell.statusLabel?.text = "status: " + person["status"]!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -82,6 +76,12 @@ class PelangganViewController: UIViewController, UITableViewDelegate, UITableVie
         self.selectedCustomer = customer
         
         let actionSheet = UIAlertController(title: "Actions", message: (self.selectedCustomer?["nama"]), preferredStyle: UIAlertControllerStyle.actionSheet)
+        let DoneAction = UIAlertAction(title: "Done", style: UIAlertActionStyle.default) { (action) in
+            if self.delegate != nil && self.selectedCustomer != nil {
+                self.delegate?.selectpelangganwilldismiss(param: self.selectedCustomer!)
+            }
+            self.navigationController?.popViewController(animated: true)
+        }
         let editAction = UIAlertAction(title: "Edit", style: UIAlertActionStyle.default) { (action) in
             self.performSegue(withIdentifier: "EditPelangganSegue", sender: self)
         }
@@ -128,6 +128,7 @@ class PelangganViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         //add action sheet
+        actionSheet.addAction(DoneAction)
         actionSheet.addAction(editAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)

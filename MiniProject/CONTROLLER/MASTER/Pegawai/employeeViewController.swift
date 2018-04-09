@@ -16,6 +16,7 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
     
     @IBOutlet var tableView: UITableView!
     
+    var kurir = employeeViewController.self
     var employee = [[String:String]]()
     var selectedemployee : [String : String]?
     var delegate: selectemployeedelegate?
@@ -24,8 +25,11 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        let tmp = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem = tmp
         self.hiddeneditemployee.isHidden = true
         self.hiddendeleteemployee.isHidden = true
+        self.hiddendone.isEnabled = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,6 +39,36 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
             self.employee = data
             self.tableView.reloadData()
         }
+        
+    }
+    
+    @IBAction func filterButton(_ sender: UIBarButtonItem) {
+        
+        let actionSheet = UIAlertController(title: "Pilter By", message: "", preferredStyle: UIAlertControllerStyle.actionSheet)
+        
+        // create edit action
+        let kurirAction = UIAlertAction(title: "Kurir", style: UIAlertActionStyle.default) {
+            (action) in
+            // TODO: Go to editemployeeViewController
+            if let data = DBWrapper.sharedInstance.fetchEmployeeFilterKurir() {
+                self.employee = data
+                self.tableView.reloadData()
+            }
+            
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
+            (action) in
+            actionSheet.dismiss(animated: true, completion: nil)
+        }
+        
+        actionSheet.addAction(kurirAction)
+        actionSheet.addAction(cancelAction)
+        
+        // show action sheet
+        self.present(actionSheet, animated: true, completion: nil)
+        
+        // deselect row
         
     }
     
@@ -48,6 +82,7 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
         // Dispose of any resources that can be recreated.
     }
     
+    @IBOutlet var hiddendone: UIBarButtonItem!
     @IBAction func doneee(_ sender: UIBarButtonItem) {
         if self.delegate != nil && self.selectedemployee != nil {
             self.delegate?.selectemployeewilldismiss(param: self.selectedemployee!)
@@ -77,7 +112,7 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
         
         if self.selectedemployee != nil && data["NamaEmployee"] == self.selectedemployee!["NamaEmployee"] {
             cell.accessoryType = .checkmark
-            
+            self.hiddendone.isEnabled = true
         } else {
             cell.accessoryType = .none
         }
@@ -110,7 +145,6 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
                 // Succes update movie
                 let alert = UIAlertController(title: "SUCCESS", message: "Employee Deleted!", preferredStyle: UIAlertControllerStyle.alert)
                 let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: { (action) in
-                    
                     // dismiss alert
                     alert.dismiss(animated: true, completion: nil)
                     
@@ -118,6 +152,7 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
                     if let data = DBWrapper.sharedInstance.fetchEmployee() {
                         self.employee = data
                         self.tableView.reloadData()
+                        self.hiddendone.isEnabled = false
                     }
                     
                 })
@@ -129,7 +164,9 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
                 // Failed update movie
                 Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Something wrong happened")
             }
+            self.selectedemployee = nil
         }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel) {
             (action) in
             actionSheet.dismiss(animated: true, completion: nil)

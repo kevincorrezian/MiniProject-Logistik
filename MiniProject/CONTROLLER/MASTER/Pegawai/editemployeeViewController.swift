@@ -8,7 +8,7 @@
 
 import UIKit
 
-class editemployeeViewController: UIViewController, UITextFieldDelegate, selectkantordelegate {
+class editemployeeViewController: UIViewController, UITextFieldDelegate, selectkantordelegate, UIPickerViewDelegate, UIPickerViewDataSource {
 
     @IBOutlet var NamaEmployeeTextField: UITextField!
     @IBOutlet var AlamatEmployeeTextField: UITextField!
@@ -21,11 +21,16 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
     
     var selectedemployee: [String: String]?
     var selectedkantor: [String:String]?
+    var gender = ["Laki-laki", "Perempuan"]
+    var posisi = ["Kurir", "Staff", "Manager"]
+    var pickerviewGWpunya = UIPickerView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        pickUp(JenisKelaminTextField)
+        pickUp(LevelEmployeeTextField)
         self.NamaEmployeeTextField.text = self.selectedemployee?["NamaEmployee"]
         self.AlamatEmployeeTextField.text = self.selectedemployee?["AlamatEmployee"]
         self.JenisKelaminTextField.text = self.selectedemployee?["JenisKelamin"]
@@ -36,6 +41,69 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    func pickUp(_ textField : UITextField){
+        
+        // UIPickerView
+        self.pickerviewGWpunya = UIPickerView(frame:CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216))
+        self.pickerviewGWpunya.delegate = self
+        self.pickerviewGWpunya.dataSource = self
+        self.pickerviewGWpunya.backgroundColor = UIColor.white
+        textField.inputView = self.pickerviewGWpunya
+        
+        
+        // ToolBar
+        let toolBar = UIToolbar()
+        toolBar.barStyle = .default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor(red: 92/255, green: 216/255, blue: 255/255, alpha: 1)
+        toolBar.sizeToFit()
+        
+        // Adding Button ToolBar
+        let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(doneClick))
+        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(cancelClick))
+        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        textField.inputAccessoryView = toolBar
+        
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView == pickerviewGWpunya {
+            return posisi.count
+        } else  {
+            return gender.count
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView == pickerviewGWpunya  {
+            return posisi[row]
+        } else {
+            return gender[row]
+        }
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        if pickerView == pickerviewGWpunya  {
+            self.LevelEmployeeTextField.text = posisi[row]
+        } else {
+            self.JenisKelaminTextField.text = gender[row]
+        }
+    }
+    
+    @objc func doneClick() {
+        JenisKelaminTextField.resignFirstResponder()
+        LevelEmployeeTextField.resignFirstResponder()
+    }
+    @objc func cancelClick() {
+        JenisKelaminTextField.resignFirstResponder()
+        LevelEmployeeTextField.resignFirstResponder()
     }
     
     @IBAction func updateButtonDidtapped(_ sender: UIButton){
@@ -84,7 +152,7 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
             "UsernameEmployee": self.UsernameTextField.text!,
             "PasswordEmployee": self.PasswordTextField.text!,
             "LevelEmployee": self.LevelEmployeeTextField.text!,
-            "idKantor": self.idKantorTextField.text!
+            "NamaKantor": self.idKantorTextField.text!
         ]
         
 
@@ -125,7 +193,7 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
     }
     
     func selectkantorwilldismiss(param: [String : String]) {
-        self.idKantorTextField.text = param["idKantor"]!
+        self.idKantorTextField.text = param["NamaKantor"]!
         self.selectedkantor = param
     }
     

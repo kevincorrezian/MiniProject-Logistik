@@ -23,6 +23,8 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
     @IBAction func addJenisPengirimanButton(_ sender: Any) {
         self.performSegue(withIdentifier: "TambahJenisPengirimanSegue", sender: self)
     }
+    
+    @IBOutlet weak var hiddendone: UIBarButtonItem!
     @IBAction func donee(_ sender: UIBarButtonItem) {
         if self.delegate != nil && self.selectedJenis != nil {
             self.delegate?.selectjenispengirimanwilldismiss(param: self.selectedJenis!)
@@ -58,14 +60,14 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
                 //Success update movie
                 let alert = UIAlertController(title: "SUCCESS", message: "Jenis pengiriman terhapus!", preferredStyle: UIAlertControllerStyle.alert)
                 let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: {(action) in
-                    alert.dismiss(animated: true, completion: nil)
-                    
+                alert.dismiss(animated: true, completion: nil)
                 })
                 alert.addAction(ok)
                 
                 if let data = DBWrapper.sharedInstance.fetchJenisPengiriman(){
                     self.jenis = data
                     self.tableView.reloadData()
+                    self.hiddendone.isEnabled = false
                 }
                 
             } else {
@@ -79,6 +81,7 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
         delete.addAction(ok)
         delete.addAction(cancel)
         self.present(delete, animated: true, completion: nil)
+        
     }
     
     
@@ -89,9 +92,11 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
             self.jenis = data
             self.tableView.reloadData()
         }
-        
+        let tmp = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem = tmp
         self.hiddenEditJenisPengiriman.isHidden = true
         self.hiddenDeleteJenisPengiriman.isHidden = true
+        self.hiddendone.isEnabled = false
         
         // Do any additional setup after loading the view.
     }
@@ -121,7 +126,7 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
         
         if self.selectedJenis != nil && data["NamaJenisPengiriman"] == self.selectedJenis!["NamaJenisPengiriman"] {
             cell.accessoryType = .checkmark
-            
+            self.hiddendone.isEnabled = true
         } else {
             cell.accessoryType = .none
         }
@@ -148,70 +153,3 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
     */
 
 }
-
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//
-//        let jenispengiriman = self.jenis[indexPath.row]
-//        self.selectedJenis = jenispengiriman
-//
-//        let actionSheet = UIAlertController(title: "Actions", message: (self.selectedJenis?["nama"]), preferredStyle: UIAlertControllerStyle.actionSheet)
-//        let editAction = UIAlertAction(title: "Edit", style: UIAlertActionStyle.default) { (action) in
-//            self.performSegue(withIdentifier: "EditJenisPengirimanSegue", sender: self)
-//        }
-//        let deleteAction = UIAlertAction(title: "Delete", style: UIAlertActionStyle.default) { (action) in
-//            actionSheet.dismiss(animated: true, completion: nil)
-//
-//            let delete = UIAlertController(title: "Apakah anda yakin ingin menghapus?", message: self.selectedJenis?["nama"], preferredStyle: UIAlertControllerStyle.alert)
-//
-//            let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {(action) in
-//                //validasi
-//
-//                let param: [String: String] = [
-//                    "idJenisPengiriman": (self.selectedJenis?["idJenisPengiriman"])!,
-//                    ]
-//
-//                if DBWrapper.sharedInstance.doDeleteJenisPengiriman(param: param) == true {
-//                    //Success update movie
-//                    let alert = UIAlertController(title: "SUCCESS", message: "Jenis pengiriman terhapus!", preferredStyle: UIAlertControllerStyle.alert)
-//                    let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: {(action) in
-//                        alert.dismiss(animated: true, completion: nil)
-//
-//                    })
-//                    alert.addAction(ok)
-//
-//                    if let data = DBWrapper.sharedInstance.fetchJenisPengiriman(){
-//                        self.jenis = data
-//                        self.tableView.reloadData()
-//                    }
-//
-//                } else {
-//                    // fail
-//                    Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Terjadi masalah!")
-//                }
-//            }
-//            let cancel = UIAlertAction(title: "Cancel", style: .cancel) {(action) in
-//
-//            }
-//            delete.addAction(ok)
-//            delete.addAction(cancel)
-//            self.present(delete, animated: true, completion: nil)
-//        }
-//        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.default) { (action) in actionSheet.dismiss(animated: true, completion: nil)
-//
-//        }
-//
-//        //add action sheet
-//        actionSheet.addAction(editAction)
-//        actionSheet.addAction(deleteAction)
-//        actionSheet.addAction(cancelAction)
-//
-//        // show action sheet
-//        self.present(actionSheet, animated: true, completion: nil)
-//
-//        //deselect row
-//        tableView.deselectRow(at: indexPath, animated: true)
-//    }
-
-
-
-
