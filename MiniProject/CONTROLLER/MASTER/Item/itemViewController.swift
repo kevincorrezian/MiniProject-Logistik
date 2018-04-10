@@ -20,16 +20,13 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var selecteditem : [String : String]?
     var delegate: selectitemdelegate?
     
+    var showButtons: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let tmp = UIBarButtonItem()
-        self.navigationItem.leftBarButtonItem = tmp
-        self.hiddenedititem.isHidden = true
-        self.hiddendeleteitem.isHidden = true
-        self.hiddendone.isEnabled = false
+        self.setUpButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,6 +38,19 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         
     }
+    func setUpButtons() {
+        if self.showButtons == true {
+            self.hiddenedititem.isHidden = true
+            self.hiddendeleteitem.isHidden = true
+            self.hiddenadditem.isHidden = false
+            self.hiddendone.isEnabled = false
+        } else {
+            self.hiddenedititem.isHidden = true
+            self.hiddendeleteitem.isHidden = true
+            self.hiddenadditem.isHidden = true
+            self.hiddendone.isEnabled = false
+        }
+    }
     
     @IBOutlet var hiddendone: UIBarButtonItem!
     @IBAction func donee(_ sender: UIBarButtonItem) {
@@ -49,7 +59,7 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
         }
         self.navigationController?.popViewController(animated: true)
     }
-    
+    @IBOutlet weak var hiddenadditem: UIButton!
     @IBAction func additem(_ sender: Any){
         self.performSegue(withIdentifier: "tambahitemsegue", sender: self)
     }
@@ -92,9 +102,13 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     @IBOutlet weak var hiddendeleteitem: UIButton!
     @IBAction func deleteitem(_ sender: UIBarButtonItem) {
-        let param: [String: String] = [
-            "idItem": (self.selecteditem?["idItem"])!
-        ]
+        let delete = UIAlertController(title: "Apakah anda yakin ingin menghapus?", message: self.selecteditem?["Deskripsi"], preferredStyle: UIAlertControllerStyle.alert)
+        
+        let ok = UIAlertAction(title: "OK", style: UIAlertActionStyle.default) {(action) in
+        
+            let param: [String: String] = [
+                "idItem": (self.selecteditem?["idItem"])!
+            ]
         if DBWrapper.sharedInstance.dodeleteitem(itemData: param) == true {
             // Succes update kantor
             let alert = UIAlertController(title: "SUCCESS", message: "item Deleted!", preferredStyle: UIAlertControllerStyle.alert)
@@ -108,6 +122,8 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
                     self.item = data
                     self.tableView.reloadData()
                     self.hiddendone.isEnabled = false
+                    self.hiddenedititem.isHidden = true
+                    self.hiddendeleteitem.isHidden = true
                 }
                 
             })
@@ -115,19 +131,31 @@ class itemViewController: UIViewController, UITableViewDataSource, UITableViewDe
             self.present(alert, animated: true, completion: nil)
             self.tableView.reloadData()
             
+            
         } else {
             // Failed update kantor
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Something wrong happened")
+            }
         }
-        self.selecteditem = nil
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel) {(action) in
+            
+        }
+        delete.addAction(ok)
+        delete.addAction(cancel)
+        self.present(delete, animated: true, completion: nil)
+        
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selecteditem = self.item[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.reloadData()
-        self.hiddenedititem.isHidden = false
-        self.hiddendeleteitem.isHidden = false
+        if self.showButtons == true {
+            self.hiddenedititem.isHidden = false
+            self.hiddendeleteitem.isHidden = false
+            self.hiddenadditem.isHidden = false
+            self.hiddendone.isEnabled = false
+        }
     }
 
     /*

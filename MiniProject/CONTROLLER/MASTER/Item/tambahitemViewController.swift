@@ -53,6 +53,9 @@ class tambahitemViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         self.beratbarangTextField.text = "1"
+        self.beratbarangTextField.isEnabled = false
+        self.statuspecahTextField.isEnabled = false
+        self.statusgaransiTextField.isEnabled = false
     }
 
     override func didReceiveMemoryWarning() {

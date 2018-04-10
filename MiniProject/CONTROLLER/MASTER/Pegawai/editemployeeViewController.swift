@@ -13,9 +13,6 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
     @IBOutlet var NamaEmployeeTextField: UITextField!
     @IBOutlet var AlamatEmployeeTextField: UITextField!
     @IBOutlet var JenisKelaminTextField: UITextField!
-    @IBOutlet var UsernameTextField: UITextField!
-    @IBOutlet var PasswordTextField: UITextField!
-    @IBOutlet var ConfirmPasswordTextField: UITextField!
     @IBOutlet var LevelEmployeeTextField: UITextField!
     @IBOutlet var idKantorTextField: UITextField!
     
@@ -35,7 +32,7 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
         self.AlamatEmployeeTextField.text = self.selectedemployee?["AlamatEmployee"]
         self.JenisKelaminTextField.text = self.selectedemployee?["JenisKelamin"]
         self.LevelEmployeeTextField.text = self.selectedemployee?["LevelEmployee"]
-        self.idKantorTextField.text = self.selectedemployee?["idKantor"]
+        self.idKantorTextField.text = self.selectedemployee?["NamaKantor"]
     }
     
     override func didReceiveMemoryWarning() {
@@ -119,18 +116,6 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "jenis kelamin Tidak Boleh Kosong")
             return
         }
-        if self.UsernameTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Username Tidak Boleh Kosong")
-            return
-        }
-        if self.PasswordTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Password Tidak Boleh Kosong")
-            return
-        }
-        if self.ConfirmPasswordTextField.text == "" {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Confirm pasword Tidak Boleh Kosong")
-            return
-        }
         if self.LevelEmployeeTextField.text == "" {
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Posisi / Jabatan Tidak Boleh Kosong")
             return
@@ -139,18 +124,12 @@ class editemployeeViewController: UIViewController, UITextFieldDelegate, selectk
             Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Kantor Tidak Boleh Kosong")
             return
         }
-            if self.PasswordTextField.text != self.ConfirmPasswordTextField.text {
-                Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Password is not matched!")
-                return
-            }
         
         let param: [String: String] = [
             "idEmployee": (self.selectedemployee?["idEmployee"])!,
             "NamaEmployee": self.NamaEmployeeTextField.text!,
             "AlamatEmployee": self.AlamatEmployeeTextField.text!,
             "JenisKelamin": self.JenisKelaminTextField.text!,
-            "UsernameEmployee": self.UsernameTextField.text!,
-            "PasswordEmployee": self.PasswordTextField.text!,
             "LevelEmployee": self.LevelEmployeeTextField.text!,
             "NamaKantor": self.idKantorTextField.text!
         ]

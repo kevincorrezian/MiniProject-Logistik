@@ -141,14 +141,17 @@ class tambahOrderViewController: UIViewController, UITextFieldDelegate, selectko
             let obj = segue.destination as! kotaViewController
             obj.delegate = self
             obj.flag = self.selectedtextfieldflag
+            obj.showButtons = false
         }
         if segue.identifier == "itemsegue" {
             let obj = segue.destination as! itemViewController
             obj.delegate = self
+            obj.showButtons = false
         }
         if segue.identifier == "jenispengirimansegue" {
             let obj = segue.destination as! JenisPengirimanViewController
             obj.delegate = self
+            obj.showButtons = false
         }
         if segue.identifier == "pelanggansegue" {
             let obj = segue.destination as! PelangganViewController

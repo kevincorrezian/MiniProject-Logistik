@@ -127,10 +127,12 @@ class PembayaranViewController: UIViewController, UITextViewDelegate, UITextFiel
         if segue.identifier == "itemsegue" {
             let obj = segue.destination as! itemViewController
             obj.delegate = self
+            obj.showButtons = false
         }
         if segue.identifier == "jenispengirimansegue" {
             let obj = segue.destination as! JenisPengirimanViewController
             obj.delegate = self
+            obj.showButtons = false
         }
         if segue.identifier == "ordersegue" {
             let obj = segue.destination as! orderViewController

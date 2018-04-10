@@ -21,15 +21,27 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
     var selectedemployee : [String : String]?
     var delegate: selectemployeedelegate?
     
+    var showButtons: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        let tmp = UIBarButtonItem()
-        self.navigationItem.leftBarButtonItem = tmp
-        self.hiddeneditemployee.isHidden = true
-        self.hiddendeleteemployee.isHidden = true
-        self.hiddendone.isEnabled = false
+        self.setUpButtons()
+    }
+    
+    func setUpButtons() {
+        if self.showButtons == true {
+            self.hiddeneditemployee.isHidden = true
+            self.hiddendeleteemployee.isHidden = true
+            self.hiddenadd.isHidden = false
+            self.hiddendone.isEnabled = false
+        } else {
+            self.hiddeneditemployee.isHidden = true
+            self.hiddendeleteemployee.isHidden = true
+            self.hiddenadd.isHidden = true
+            self.hiddendone.isEnabled = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,7 +84,7 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
         
     }
     
-    
+    @IBOutlet var hiddenadd: UIButton!
     @IBAction func addemployee(_ sender: Any){
         self.performSegue(withIdentifier: "tambahemployeesegue", sender: self)
     }
@@ -153,6 +165,8 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
                         self.employee = data
                         self.tableView.reloadData()
                         self.hiddendone.isEnabled = false
+                        self.hiddeneditemployee.isHidden = true
+                        self.hiddendeleteemployee.isHidden = true
                     }
                     
                 })
@@ -181,8 +195,12 @@ class employeeViewController: UIViewController, UITableViewDelegate, UITableView
         self.selectedemployee = self.employee[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.reloadData()
-        self.hiddeneditemployee.isHidden = false
-        self.hiddendeleteemployee.isHidden = false
+        if self.showButtons == true {
+            self.hiddeneditemployee.isHidden = false
+            self.hiddendeleteemployee.isHidden = false
+            self.hiddenadd.isHidden = false
+            self.hiddendone.isEnabled = false
+        }
     }
     
 }

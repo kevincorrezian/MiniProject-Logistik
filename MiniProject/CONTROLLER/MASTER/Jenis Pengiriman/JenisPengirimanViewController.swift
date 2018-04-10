@@ -18,8 +18,25 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
     var jenis = [[String: String]]()
     var selectedJenis: [String: String]?
     var delegate: selectjenispengirimandelegate?
+    var showButtons: Bool = true
     
     @IBOutlet weak var tableView: UITableView!
+    
+    func setUpButtons() {
+        if self.showButtons == true {
+            self.hiddenEditJenisPengiriman.isHidden = true
+            self.hiddenDeleteJenisPengiriman.isHidden = true
+            self.hiddenADDJenisPengiriman.isHidden = false
+            self.hiddendone.isEnabled = false
+        } else {
+            self.hiddenEditJenisPengiriman.isHidden = true
+            self.hiddenDeleteJenisPengiriman.isHidden = true
+            self.hiddenADDJenisPengiriman.isHidden = true
+            self.hiddendone.isEnabled = false
+        }
+    }
+    
+    @IBOutlet weak var hiddenADDJenisPengiriman: UIButton!
     @IBAction func addJenisPengirimanButton(_ sender: Any) {
         self.performSegue(withIdentifier: "TambahJenisPengirimanSegue", sender: self)
     }
@@ -68,6 +85,8 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
                     self.jenis = data
                     self.tableView.reloadData()
                     self.hiddendone.isEnabled = false
+                    self.hiddenEditJenisPengiriman.isHidden = true
+                    self.hiddenDeleteJenisPengiriman.isHidden = true
                 }
                 
             } else {
@@ -92,14 +111,12 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
             self.jenis = data
             self.tableView.reloadData()
         }
-        let tmp = UIBarButtonItem()
-        self.navigationItem.leftBarButtonItem = tmp
-        self.hiddenEditJenisPengiriman.isHidden = true
-        self.hiddenDeleteJenisPengiriman.isHidden = true
-        self.hiddendone.isEnabled = false
+        self.setUpButtons()
         
         // Do any additional setup after loading the view.
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -137,8 +154,12 @@ class JenisPengirimanViewController: UIViewController, UITableViewDelegate, UITa
         self.selectedJenis = self.jenis[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.reloadData()
-        self.hiddenDeleteJenisPengiriman.isHidden = false
-        self.hiddenEditJenisPengiriman.isHidden = false
+        if self.showButtons == true {
+            self.hiddenEditJenisPengiriman.isHidden = false
+            self.hiddenDeleteJenisPengiriman.isHidden = false
+            self.hiddenADDJenisPengiriman.isHidden = false
+            self.hiddendone.isEnabled = false
+        }
     }
 
 

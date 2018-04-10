@@ -42,7 +42,7 @@ class listpembayaranViewController: UIViewController, UITableViewDelegate, UITab
         return self.pembayaran.count
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160.0
+        return 258.0
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "pembayaranTableViewCell", for: indexPath) as! pembayaranTableViewCell

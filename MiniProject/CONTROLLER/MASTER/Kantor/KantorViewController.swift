@@ -20,15 +20,28 @@ class KantorViewController: UIViewController , UITableViewDataSource, UITableVie
     var selectedkantor : [String : String]?
     var delegate: selectkantordelegate?
     
+     var showButtons: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tmp = UIBarButtonItem()
-        self.navigationItem.leftBarButtonItem = tmp
-        self.hiddeneditkantor.isHidden = true
-        self.hiddendeletekantor.isHidden = true
-        self.hiddendone.isEnabled = false
+         self.setUpButtons()
         // Do any additional setup after loading the view.
     }
+    
+    func setUpButtons() {
+        if self.showButtons == true {
+            self.hiddeneditkantor.isHidden = true
+            self.hiddendeletekantor.isHidden = true
+            self.hiddenaddkantor.isHidden = false
+            self.hiddendone.isEnabled = false
+        } else {
+            self.hiddeneditkantor.isHidden = true
+            self.hiddendeletekantor.isHidden = true
+            self.hiddenaddkantor.isHidden = true
+            self.hiddendone.isEnabled = false
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -38,7 +51,7 @@ class KantorViewController: UIViewController , UITableViewDataSource, UITableVie
         }
         
     }
-    
+    @IBOutlet weak var hiddenaddkantor: UIButton!
     @IBAction func addkantor(_ sender: Any){
         self.performSegue(withIdentifier: "tambahkantorsegue", sender: self)
     }
@@ -132,8 +145,12 @@ class KantorViewController: UIViewController , UITableViewDataSource, UITableVie
         tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.reloadData()
         
-        self.hiddeneditkantor.isHidden = false
-        self.hiddendeletekantor.isHidden = false
+        if self.showButtons == true {
+            self.hiddeneditkantor.isHidden = false
+            self.hiddendeletekantor.isHidden = false
+            self.hiddenaddkantor.isHidden = false
+            self.hiddendone.isEnabled = false
+        }
     }
     
 }

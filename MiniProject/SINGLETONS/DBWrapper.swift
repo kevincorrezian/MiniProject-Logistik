@@ -29,7 +29,7 @@ class DBWrapper{
     
     func createTables(){
         // EMPLOYEE
-        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Employee (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT, NamaEmployee TEXT, AlamatEmployee TEXT, JenisKelamin TEXT, UsernameEmployee TEXT, PasswordEmployee TEXT, LevelEmployee TEXT, NamaKantor TEXT)", nil, nil, nil) != SQLITE_OK {
+        if sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS Employee (idEmployee INTEGER PRIMARY KEY  AUTOINCREMENT, NamaEmployee TEXT, AlamatEmployee TEXT, JenisKelamin TEXT, UsernameEmployee TEXT UNIQUE, PasswordEmployee TEXT, LevelEmployee TEXT, NamaKantor TEXT)", nil, nil, nil) != SQLITE_OK {
             let errmsg = String (cString: sqlite3_errmsg(db)!)
             print("ERROR: Error creating table Employee: \(errmsg)")
         }
@@ -220,12 +220,10 @@ class DBWrapper{
         let NamaEmployee = dataEmployee["NamaEmployee"]!
         let AlamatEmployee = dataEmployee["AlamatEmployee"]!
         let JenisKelamin =  dataEmployee["JenisKelamin"]!
-        let UsernameEmployee = dataEmployee["UsernameEmployee"]!
-        let PasswordEmployee = dataEmployee["PasswordEmployee"]!
         let LevelEmployee = dataEmployee["LevelEmployee"]!
         let NamaKantor = dataEmployee["NamaKantor"]!
         
-        let queryString = "Update Employee SET NamaEmployee='\(NamaEmployee)', AlamatEmployee = '\(AlamatEmployee)', JenisKelamin ='\(JenisKelamin)', UsernameEmployee ='\(UsernameEmployee)', PasswordEmployee ='\(PasswordEmployee)', LevelEmployee ='\(LevelEmployee)', NamaKantor ='\(NamaKantor)' WHERE idEmployee = '\(idEmployee)'"
+        let queryString = "Update Employee SET NamaEmployee='\(NamaEmployee)', AlamatEmployee = '\(AlamatEmployee)', JenisKelamin ='\(JenisKelamin)', LevelEmployee ='\(LevelEmployee)', NamaKantor ='\(NamaKantor)' WHERE idEmployee = '\(idEmployee)'"
         print("QUERY UPDATE EMPLOYEE : \(queryString)")
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK {
@@ -831,7 +829,7 @@ class DBWrapper{
         
         let TotalPembayaran = pembayaranData["TotalPembayaran"]!
         
-        let queryString = "INSERT INTO Pembayaran (idOrder, NamaPelanggan, NamaJenisPengiriman, Deskripsi, BeratBarang, StatusPecah, StatusGaransi, TarifJenisPengiriman, TotalPembayaran) VALUES ('\(idOrder)','\(NamaPelanggan)','\(NamaJenisPengiriman)','\(Deskripsi)','\(BeratBarang)','\(TarifJenisPengiriman)','\(StatusPecah)','\(StatusGaransi)','\(TotalPembayaran)')"
+        let queryString = "INSERT INTO Pembayaran (idOrder, NamaPelanggan, NamaJenisPengiriman, Deskripsi, BeratBarang, StatusPecah, StatusGaransi, TarifJenisPengiriman, TotalPembayaran) VALUES ('\(idOrder)','\(NamaPelanggan)','\(NamaJenisPengiriman)','\(Deskripsi)','\(BeratBarang)','\(StatusPecah)','\(StatusGaransi)','\(TarifJenisPengiriman)','\(TotalPembayaran)')"
         print ("QUERY INSERT Pembayaran: \(queryString)")
         
         if sqlite3_prepare(db, queryString, -1, &stmt, nil) != SQLITE_OK

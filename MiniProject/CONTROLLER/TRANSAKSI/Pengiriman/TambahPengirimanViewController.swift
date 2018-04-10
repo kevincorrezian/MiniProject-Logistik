@@ -144,6 +144,7 @@ class TambahPengirimanViewController: UIViewController, UITextFieldDelegate, sel
         if segue.identifier == "pengirimankantorsegue" {
             let obj = segue.destination as! KantorViewController
             obj.delegate = self
+            obj.showButtons = false
         }
         if segue.identifier == "statuspengirimansegue" {
             let obj = segue.destination as! StatusPengirimanViewController
@@ -156,10 +157,12 @@ class TambahPengirimanViewController: UIViewController, UITextFieldDelegate, sel
         if segue.identifier == "pengirimanemployeesegue" {
             let obj = segue.destination as! employeeViewController
             obj.delegate = self
+            obj.showButtons = false
         }
         if segue.identifier == "jenispengirimansegue" {
             let obj = segue.destination as! JenisPengirimanViewController
             obj.delegate = self
+            obj.showButtons = false
         }
     }
     

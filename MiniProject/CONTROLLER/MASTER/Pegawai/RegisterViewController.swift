@@ -162,7 +162,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate, selectkanto
         if DBWrapper.sharedInstance.doRegister(nama: nama, alamat: alamat, jeniskelamin: jeniskelamin, username: username, password: password, level: level, kantor: kantor) == true {
             Utilities.sharedInstance.showAlert(obj: self, title: "SUCCESS", message: "Youre now registered!")
         } else {
-            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Register Failed!")
+            Utilities.sharedInstance.showAlert(obj: self, title: "ERROR", message: "Register Failed! / Username Already Used!")
         }
         // Validations
     }

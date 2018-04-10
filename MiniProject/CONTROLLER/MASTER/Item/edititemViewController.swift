@@ -15,6 +15,22 @@ class edititemViewController: UIViewController {
     @IBOutlet var statuspecahTextField: UITextField!
     @IBOutlet var statusgaransiTextField: UITextField!
     
+    
+    @IBAction func kurangi_berat(_ sender: UIButton) {
+        var beratsaatini = Int(self.beratbarangTextField.text!)
+        
+        if beratsaatini! - 1 > 0 {
+            self.beratbarangTextField.text = String(Int(beratbarangTextField.text!)! - 1)
+        }
+    }
+    @IBAction func tambah_berat(_ sender: UIButton) {
+        var beratsaatini = Int(self.beratbarangTextField.text!)
+        
+        if beratsaatini! + 1 <= 10 {
+            self.beratbarangTextField.text = String(Int(beratbarangTextField.text!)! + 1)
+        }
+        
+    }
     @IBAction func statusgaransiswitch(_ sender: UISwitch) {
         if (sender.isOn == true) {
             statusgaransiTextField.text = "Aktif"
@@ -38,6 +54,9 @@ class edititemViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.deskripsiTextView.text = self.selecteditem?["Deskripsi"]
         self.beratbarangTextField.text = self.selecteditem?["BeratBarang"]
+        self.beratbarangTextField.isEnabled = false
+        self.statuspecahTextField.isEnabled = false
+        self.statusgaransiTextField.isEnabled = false
     }
     
     @IBAction func editbutton(_ sender: UIButton){

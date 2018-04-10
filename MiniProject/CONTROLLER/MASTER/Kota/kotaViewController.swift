@@ -15,20 +15,31 @@ protocol selectkotadelegate {
 class kotaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var tableView: UITableView!
-    
     var kota = [[String:String]]()
     var selectedkota : [String : String]?
     var delegate: selectkotadelegate?
     var flag = 0
 
+    var showButtons: Bool = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tmp = UIBarButtonItem()
-        self.navigationItem.leftBarButtonItem = tmp
-        self.hiddeneditkota.isHidden = true
-        self.hiddendeletekota.isHidden = true
-        self.hiddendone.isEnabled = false
         // Do any additional setup after loading the view.
+        self.setUpButtons()
+    }
+    
+    func setUpButtons() {
+        if self.showButtons == true {
+            self.hiddeneditkota.isHidden = true
+            self.hiddendeletekota.isHidden = true
+            self.hiddenaddkota.isHidden = false
+            self.hiddendone.isEnabled = false
+        } else {
+            self.hiddeneditkota.isHidden = true
+            self.hiddendeletekota.isHidden = true
+            self.hiddenaddkota.isHidden = true
+            self.hiddendone.isEnabled = false
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,7 +51,7 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
         
     }
-    
+     @IBOutlet var hiddenaddkota: UIButton!
     @IBAction func addkota(_ sender: Any){
         self.performSegue(withIdentifier: "tambahkotasegue", sender: self)
     }
@@ -126,6 +137,8 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
                         self.kota = data
                         self.tableView.reloadData()
                         self.hiddendone.isEnabled = false
+                        self.hiddeneditkota.isHidden = true
+                        self.hiddendeletekota.isHidden = true
                     }
                     
                 })
@@ -151,9 +164,12 @@ class kotaViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.selectedkota = self.kota[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         self.tableView.reloadData()
-        self.hiddeneditkota.isHidden = false
-        self.hiddendeletekota.isHidden = false
-        
+        if self.showButtons == true {
+            self.hiddeneditkota.isHidden = false
+            self.hiddendeletekota.isHidden = false
+            self.hiddenaddkota.isHidden = false
+            self.hiddendone.isEnabled = false
+        }
     }
 
 }

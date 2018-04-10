@@ -13,7 +13,8 @@ class HomepageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        let tmp = UIBarButtonItem()
+        self.navigationItem.leftBarButtonItem = tmp
         // Do any additional setup after loading the view.
     }
 
@@ -38,7 +39,7 @@ class HomepageViewController: UIViewController {
         self.performSegue(withIdentifier: "datasegue", sender: self)
     }
  @IBAction func pembayaranButton(_ sender: UIButton){
-    self.performSegue(withIdentifier: "pembayaransegue", sender: self)
+    self.performSegue(withIdentifier: "listpembayaransegue", sender: self)
     }
     @IBAction func pengirimanimg(_ sender: Any){
         self.performSegue(withIdentifier: "datasegue", sender: self)
